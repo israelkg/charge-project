@@ -30,25 +30,7 @@ class ChargeTypeForm extends AbstractType{
                 'attr' => ['rows' => 5, 'placeholder' => 'Detalhes sobre o que está sendo cobrado', 'class' => 'mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm'],
                 'row_attr' => ['class' => 'mb-4'],
             ])
-            ->add('dueDate', DateType::class, [
-                'label' => 'Data de Vencimento',
-                'widget' => 'single_text', 
-                'html5' => false,
-                'format' => 'dd/MM/yyyy',
-                'attr' => ['class' => 'mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm datepicker-input'],
-                'row_attr' => ['class' => 'mb-4'],
-            ])
-            ->add('chargeType', ChoiceType::class, [
-                'label' => 'Tipo de Cobrança',
-                'choices' => [
-                    'Boleto' => 'BOLETO',
-                    'Pix' => 'PIX',        
-                    'Cartão de Crédito' => 'CREDIT_CARD', 
-                ],
-                'placeholder' => 'Selecione o tipo', 
-                'attr' => ['class' => 'mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm'],
-                'row_attr' => ['class' => 'mb-4'],
-            ])
+            
             ->add('paymentOption', ChoiceType::class, [
                 'label' => 'Como o seu cliente poderá pagar?',
                 'choices' => [
@@ -62,6 +44,19 @@ class ChargeTypeForm extends AbstractType{
                 'row_attr' => ['class' => 'mb-6'],
                 'data' => 'A_VISTA_PARCELADO'
             ])
+            ->add('chargeType', ChoiceType::class, [
+                'label' => 'Tipo de Cobrança',
+                'choices' => [
+                    'Boleto' => 'BOLETO',
+                    'Pix' => 'PIX',        
+                    'Cartão de Crédito' => 'CREDIT_CARD', 
+                ],
+                'placeholder' => 'Selecione o tipo', 
+                'attr' => ['class' => 'mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm'],
+                'row_attr' => ['class' => 'mb-4'],
+            ])
+
+            //AVISTA/PARCELAMENTO
             ->add('installments', ChoiceType::class, [
                 'label' => 'Parcelamento',
                 'choices' => [
@@ -71,6 +66,15 @@ class ChargeTypeForm extends AbstractType{
                 'required' => false, 
                 'attr' => ['class' => 'mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm'],
                 'row_attr' => ['class' => 'mb-4', 'id' => 'installments_row'], 
+            ])
+            ->add('dueDate', DateType::class, [
+                'label' => 'Data de Vencimento',
+                'widget' => 'single_text', 
+                'html5' => false,
+                'format' => 'dd/MM/yyyy',
+                'required' => true,
+                'attr' => ['class' => 'mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm datepicker-input'],
+                'row_attr' => ['class' => 'mb-4'],
             ])
 
             //ASSINATURA
@@ -84,7 +88,7 @@ class ChargeTypeForm extends AbstractType{
                 'data' => 'Mensal',
                 'required' => true, // A obrigatoriedade será condicional via JS
                 'attr' => ['class' => 'mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm'], 
-                'row_attr' => ['class' => 'mb-4 subscription-field'], 
+                'row_attr' => ['class' => 'mb-4'], 
             ])
             ->add('dueDateAss', DateType::class, [
                 'label' => 'Vencimento da 1ª cobrança',
@@ -92,32 +96,40 @@ class ChargeTypeForm extends AbstractType{
                 'html5' => false,
                 'format' => 'dd/MM/yyyy',
                 'required' => true,// A obrigatoriedade será condicional via JS
-                'attr' => ['class' => 'mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm datepicker-input', 'id' => 'subscription_start_date_field'], // ID e classe para JS
-                'row_attr' => ['class' => 'mb-4 subscription-field'], 
+                'attr' => ['class' => 'mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm datepicker-input'],
+                'row_attr' => ['class' => 'mb-4'], 
             ])
 
 
             // Dados do Cliente
-            ->add('clientName', TextType::class, [
-                'label' => 'Nome do Cliente',
-                'attr' => ['placeholder' => 'Nome completo do cliente', 'class' => 'mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm'],
-                'row_attr' => ['class' => 'mb-4'],
-            ])
             ->add('clientCpfCnpj', TextType::class, [
                 'label' => 'CPF/CNPJ do Cliente',
-                'attr' => ['placeholder' => 'Apenas números (opcional)', 'class' => 'mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm'],
+                'attr' => ['placeholder' => 'Digite o CPF ou CNPJ', 'class' => 'mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm'],
                 'required' => false, 
                 'row_attr' => ['class' => 'mb-4'],
             ])
+            ->add('clientName', TextType::class, [
+                'label' => 'Nome do Cliente',
+                'attr' => ['placeholder' => 'Digite o nome cliente', 'class' => 'mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm'],
+                'row_attr' => ['class' => 'mb-4'],
+                'required' => false,
+            ])
             ->add('clientEmail', TextType::class, [
                 'label' => 'Email do Cliente',
-                'attr' => ['placeholder' => 'email@exemplo.com', 'class' => 'mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm'],
+                'attr' => ['placeholder' => 'Digite um e-mail para contato', 'class' => 'mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm'],
+                'row_attr' => ['class' => 'mb-4'],
+                'required' => false,
+            ])
+            ->add('clientPhone', TextType::class, [
+                'label' => 'Celular do Cliente',
+                'attr' => ['placeholder' => '(00) 00000-0000', 'class' => 'mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm'],
+                'required' => false, 
                 'row_attr' => ['class' => 'mb-4'],
             ])
             ->add('clientAddress', TextareaType::class, [
                 'label' => 'Endereço do Cliente',
                 'attr' => ['rows' => 3, 'placeholder' => 'Rua, número, bairro, cidade, estado (opcional)', 'class' => 'mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm'],
-                'required' => false, 
+                'required' => true, 
                 'row_attr' => ['class' => 'mb-4'],
             ])
         ;

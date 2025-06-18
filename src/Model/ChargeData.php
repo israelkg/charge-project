@@ -11,6 +11,7 @@ class ChargeData{
     #[Assert\Length(min: 3, minMessage: 'O nome do cliente deve ter pelo menos {{ limit }} caracteres.')]
     public ?string $clientName = null;
     public ?string $clientCpfCnpj = null;
+    public ?string $clientPhone = null;
 
     #[Assert\NotBlank(message: 'O email do cliente é obrigatório.')]
     #[Assert\Email(message: 'Insira um email válido.')]
@@ -19,6 +20,10 @@ class ChargeData{
 
     #[Assert\NotBlank(message: 'O valor é obrigatório.')]
     #[Assert\Positive(message: 'O valor deve ser um número positivo.')]
+    #[Assert\GreaterThan([
+        'value' => 0,
+        'message' => 'O valor deve ser maior que zero.',
+    ])]
     public ?float $value = null;
 
     #[Assert\Length(max: 255, maxMessage: 'A descrição pode ter no máximo {{ limit }} caracteres.')]
@@ -44,7 +49,7 @@ class ChargeData{
     #[Assert\Choice(choices: ['MONTHLY', 'YEARLY', 'QUARTERLY'], message: 'Frequência de assinatura inválida.')]
     public ?string $subscriptionFrequency = null; 
 
-    #[Assert\Type(\DateTimeImmutable::class, message: 'Data de início da assinatura inválida.')]
+    #[Assert\NotBlank(message: 'A data de vencimento é obrigatória.')]
     #[Assert\GreaterThanOrEqual(value: 'today', message: 'A data de início da assinatura não pode ser no passado.')]
     public $dueDateAss = null;
 }

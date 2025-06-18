@@ -43,19 +43,35 @@
                     </div>
 
                     <p class="text-gray-500 text-sm mb-4">O valor será cobrado apenas uma vez, ou conforme o número de parcelas escolhido.</p>
-                    
+        
                     {{ form_errors(chargeForm.paymentOption) }}
+
                     {{ form_row(chargeForm.chargeType) }}
+                    {{ form_errors(chargeForm.chargeType) }}
 
                     <div id="installment-form" class="flex flex-col md:flex-row md:space-x-4"> 
-                        <div class="flex-1"> {{ form_row(chargeForm.installments) }}</div>
-                        <div class="flex-1"> {{ form_row(chargeForm.dueDate) }}</div>
+                        <div class="flex-1"> 
+                            {{ form_row(chargeForm.installments) }} 
+                            {{ form_errors(chargeForm.installments) }}
+                        </div>
+                        
+                        <div class="flex-1"> 
+                            {{ form_row(chargeForm.dueDate) }}
+                            {{ form_errors(chargeForm.dueDate) }}
+                        </div>
                     </div>
 
                     <div id="subscription-form" class="hidden mt-6">
                         <div class="flex flex-col md:flex-row md:space-x-4"> 
-                            <div class="flex-1"> {{ form_row(chargeForm.subscriptionFrequency) }}</div>
-                            <div class="flex-1"> {{ form_row(chargeForm.dueDateAss) }}</div>
+                            <div class="flex-1"> 
+                                {{ form_row(chargeForm.subscriptionFrequency) }}||
+                                {{ form_errors(chargeForm.subscriptionFrequency) }} ||
+                            </div>
+
+                            <div class="flex-1"> 
+                                {{ form_row(chargeForm.dueDateAss) }} ||
+                                {{ form_errors(chargeForm.dueDateAss) }}
+                            </div>                        
                         </div>
                     </div>
                 </fieldset>
@@ -66,12 +82,17 @@
             </div>
 
             <div id="step-2" class="form-step hidden"> 
+                {# <fieldset>
+                    <h1>Como a cobrança sera enviada, via Email, Wpp ou SMS</h1>
+                </fieldset>#}
+
                 <fieldset class="border border-gray-300 p-6 rounded-md mb-6">
                     <legend class="text-xl font-semibold text-gray-700 px-2 -ml-2">2. Dados do Cliente</legend>
-                    {{ form_row(chargeForm.clientName) }}
-                    {{ form_row(chargeForm.clientCpfCnpj) }}
-                    {{ form_row(chargeForm.clientEmail) }}
-                    {{ form_row(chargeForm.clientAddress) }}
+                    {{ form_row(chargeForm.clientCpfCnpj) }}   {# temq ser obri #}
+                    {{ form_row(chargeForm.clientName) }}      {# temq ser obri #}
+                    {{ form_row(chargeForm.clientEmail) }}     {# temq ser obri #}
+                    {{ form_row(chargeForm.clientPhone) }} 
+                    {{ form_row(chargeForm.clientAddress) }}   {# temq ser opcional #}
                 </fieldset>
 
                 <div class="flex justify-between mt-6">
@@ -85,5 +106,6 @@
 
     <script src="https://unpkg.com/imask"></script>
     <script src="{{ asset('js/masks.js') }}"></script>
-    <script src="{{ asset('js/wizard.js') }}"></script>
+    <script src="{{ asset('js/step1-charge.js') }}"></script>
+    <script src="{{ asset('js/step2-charge.js') }}"></script>
 {% endblock %}
