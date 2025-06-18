@@ -6,15 +6,22 @@ use App\Model\ChargeData;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType; 
 use Symfony\Component\Form\Extension\Core\Type\DateType;   
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;  
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;   
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
 
 class ChargeTypeForm extends AbstractType{
     public function buildForm(FormBuilderInterface $builder, array $options): void{
         $builder
+            ->add('currentStep', HiddenType::class, [
+                'mapped' => false,
+                'data' => '2',
+            ])
             // Dados da Cobrança
             ->add('value', MoneyType::class, [
                 'label' => 'Valor da Cobrança (R$)',
@@ -29,6 +36,7 @@ class ChargeTypeForm extends AbstractType{
                 'label' => 'Descrição da Cobrança',
                 'attr' => ['rows' => 5, 'placeholder' => 'Detalhes sobre o que está sendo cobrado', 'class' => 'mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm'],
                 'row_attr' => ['class' => 'mb-4'],
+                'required' => true,
             ])
             
             ->add('paymentOption', ChoiceType::class, [
@@ -138,6 +146,13 @@ class ChargeTypeForm extends AbstractType{
     public function configureOptions(OptionsResolver $resolver): void{
         $resolver->setDefaults([
             'data_class' => ChargeData::class, 
+            'validation_groups' => function(FormInterface $form){
+                $step = $form->get('currentStep')->getData();
+                return match($step){
+                    '1' => ['Default', 'step1'],
+                    '2' => ['Default', 'step2'],
+                };
+            },
             'attr' => ['novalidate' => 'novalidate'], 
         ]);
     }

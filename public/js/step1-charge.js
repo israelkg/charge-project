@@ -10,16 +10,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const paymentOptionGroup = document.getElementById('payment_option_group');
     const installmentsField = document.getElementById('charge_type_form_installments');
     const installmentsRow = document.getElementById('charge_type_form_installmentsRow');
-    
-    //Data Client
-    const clientNameInput = document.getElementById(multiStepForm?.elements['charge_type_form_clientName']?.id);
-    const clientEmailInput = document.getElementById(multiStepForm?.elements['charge_type_form_clientEmail']?.id);
-    const clientPhoneInput = document.getElementById(multiStepForm?.elements['charge_type_form_clientPhone']?.id);
-    const clientCpfCnpjInput = document.getElementById('charge_type_form_clientCpfCnpj');
-    const clientAdressInput = document.getElementById('charge_type_form_clientAdress');
 
-    const prevStep2Button = document.getElementById('prev-step-2');
     const submitFormButton = document.getElementById('submit-form');
+    const prevStep2Button = document.getElementById('prev-step-2');
 
     const dueDateInput = document.querySelector('.datepicker-input');
     if (dueDateInput) {
@@ -162,8 +155,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     function validateChargeValue(){
         const chargeValue = getChargeValue();
-        console.log("Chargue value: ", chargeValue);
+        
         if(chargeValue <= 0){
+            console.log("X valor inválido: ", chargeValue);
             showError(chargeValueInput);
             return false
         } 
@@ -235,9 +229,19 @@ document.addEventListener('DOMContentLoaded', function () {
         return isValid;
     }
 
-    const nextStep = document.getElementById('next-step-1');
-    nextStep.addEventListener('click', () => {
+    document.getElementById('next-step-1').addEventListener('click', () => {
         if (validateChargeStep1()) {
+            document.getElementById('charge_type_form_currentStep').value = '1';
+            // multiStepForm.submit();
+        }
+    });
+    
+    
+    document.getElementById('next-step-1').addEventListener('click', (e) => {
+        e.preventDefault();
+        const isValid = validateChargeStep1();
+        if (isValid) {
+            document.getElementById('charge_type_form_currentStep').value = '1';
             document.getElementById('step-1').classList.add('hidden');
             document.getElementById('step-2').classList.remove('hidden');
             updateStepIndicator(2);
@@ -246,6 +250,7 @@ document.addEventListener('DOMContentLoaded', function () {
     prevStep2Button?.addEventListener('click', () => {
         document.getElementById('step-2').classList.add('hidden');
         document.getElementById('step-1').classList.remove('hidden');
+        document.getElementById('charge_type_form_currentStep').value = '1'; 
         updateStepIndicator(1);
     });
     

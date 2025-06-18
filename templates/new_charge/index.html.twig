@@ -44,34 +44,16 @@
 
                     <p class="text-gray-500 text-sm mb-4">O valor será cobrado apenas uma vez, ou conforme o número de parcelas escolhido.</p>
         
-                    {{ form_errors(chargeForm.paymentOption) }}
-
                     {{ form_row(chargeForm.chargeType) }}
-                    {{ form_errors(chargeForm.chargeType) }}
 
                     <div id="installment-form" class="flex flex-col md:flex-row md:space-x-4"> 
-                        <div class="flex-1"> 
-                            {{ form_row(chargeForm.installments) }} 
-                            {{ form_errors(chargeForm.installments) }}
-                        </div>
-                        
-                        <div class="flex-1"> 
-                            {{ form_row(chargeForm.dueDate) }}
-                            {{ form_errors(chargeForm.dueDate) }}
-                        </div>
-                    </div>
+                        <div class="flex-1"> {{ form_row(chargeForm.installments) }}  </div>
+                        <div class="flex-1"> {{ form_row(chargeForm.dueDate) }} </div>
 
                     <div id="subscription-form" class="hidden mt-6">
                         <div class="flex flex-col md:flex-row md:space-x-4"> 
-                            <div class="flex-1"> 
-                                {{ form_row(chargeForm.subscriptionFrequency) }}||
-                                {{ form_errors(chargeForm.subscriptionFrequency) }} ||
-                            </div>
-
-                            <div class="flex-1"> 
-                                {{ form_row(chargeForm.dueDateAss) }} ||
-                                {{ form_errors(chargeForm.dueDateAss) }}
-                            </div>                        
+                            <div class="flex-1"> {{ form_row(chargeForm.subscriptionFrequency) }}</div>
+                            <div class="flex-1"> {{ form_row(chargeForm.dueDateAss) }}</div>                        
                         </div>
                     </div>
                 </fieldset>
