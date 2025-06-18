@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Projeto de Cobrança{% endblock %}</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/light.css">
+</head>
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+
+    <div class="flex h-screen">
+        <aside class="w-64 bg-gray-800 text-white p-4 flex flex-col justify-between"> 
+            <div> 
+                <h2 class="text-2xl font-bold mb-6">Assas Clone</h2>
+                <nav>
+                    <ul>
+                        <li class="mb-2">
+                            <a href="{{ path('app_charge_home') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Início</a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="{{ path('app_charge_new') }}" class="block py-2 px-4 rounded bg-blue-600 hover:bg-blue-700">Nova Cobrança</a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#" class="block py-2 px-4 rounded hover:bg-gray-700">Listar Cobranças</a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#" class="block py-2 px-4 rounded hover:bg-gray-700">Clientes</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+
+            <div class="mt-8 pt-4 border-t border-gray-700">
+                {% if app.user %}
+                    <div class="text-sm text-gray-400 mb-2">
+                        Logado como: <span class="font-semibold text-white">{{ app.user.userIdentifier }}</span>
+                    </div>
+                    <a href="{{ path('app_logout') }}" class="block py-2 px-4 rounded bg-red-600 hover:bg-red-700 text-center">Sair</a>
+                {% else %}
+                    <a href="{{ path('app_login') }}" class="block py-2 px-4 rounded bg-green-600 hover:bg-green-700 text-center mb-2">Fazer Login</a>
+                    <a href="{{ path('app_register') }}" class="block py-2 px-4 rounded bg-gray-700 hover:bg-gray-600 text-center text-sm">Criar Conta</a>
+                {% endif %}
+            </div>
+        </aside>
+
+        <main class="flex-1 p-8 overflow-y-auto">
+            {% for type, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="p-4 mb-4 rounded-md
+                        {% if type == 'success' %} bg-green-100 border-l-4 border-green-500 text-green-700
+                        {% elseif type == 'danger' or type == 'error' %} bg-red-100 border-l-4 border-red-500 text-red-700
+                        {% elseif type == 'warning' %} bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700
+                        {% else %} bg-blue-100 border-l-4 border-blue-500 text-blue-700
+                        {% endif %}" role="alert">
+                        <p class="font-bold">
+                            {% if type == 'success' %}Sucesso!
+                            {% elseif type == 'danger' or type == 'error' %}Erro!
+                            {% elseif type == 'warning' %}Atenção!
+                            {% else %}Informação!
+                            {% endif %}
+                        </p>
+                        <p>{{ message }}</p>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+
+            {% block body %}{% endblock %}
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
+</body>
+</html>

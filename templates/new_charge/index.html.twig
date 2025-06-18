@@ -1,0 +1,89 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Nova Cobrança{% endblock %}
+
+{% block body %}
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">Criar Nova Cobrança</h1>
+
+    <div class="bg-white p-8 rounded-lg shadow-md max-w-2xl mx-auto">
+        {{ form_start(chargeForm, {'attr': {'id': 'multi-step-form', 'class': 'space-y-6'}}) }} 
+
+             <div class="mb-8 text-center">
+                <span id="step-indicator" class="text-xl font-bold text-blue-600">Passo 1 de 2</span>
+            </div>
+
+            <div id="step-1" class="form-step">
+                <fieldset class="border border-gray-300 p-6 rounded-md mb-6">
+                    <legend class="text-xl font-semibold text-gray-700 px-2 -ml-2">1. Dados da Cobrança</legend>
+
+                    <div class="mb-4">
+                        {{ form_label(chargeForm.value, null) }}
+                        <div class="mt-1 flex rounded-md shadow-sm">
+                            {{ form_widget(chargeForm.value) }}
+                        </div>
+                    </div>
+                    {{ form_row(chargeForm.description) }}
+                </fieldset>
+'
+                <fieldset class="border border-gray-300 p-6 rounded-md" id="payment_options_fieldset">
+                    <legend class="text-xl font-semibold text-gray-700 px-2 -ml-2">Opções de Pagamento</legend>
+
+                    {{ form_label(chargeForm.paymentOption, null, {'label_attr': {'class': 'block text-lg font-bold text-gray-800 mb-2'}}) }}
+                    <div class="flex gap-2 mb-2" id="payment_option_group">
+                        {% for child in chargeForm.paymentOption %}
+                            <label for="{{ child.vars.id }}" class="flex-1 py-2 px-4 rounded-md text-center cursor-pointer transition duration-300 ease-in-out
+                                {% if child.vars.checked %} bg-blue-600 text-white shadow-md
+                                {% else %} bg-gray-200 text-gray-800 hover:bg-gray-300
+                                {% endif %}">
+                            {{ form_widget(child, {'attr': {'class': 'hidden'}}) }}
+                            {{ child.vars.label }}
+                            </label>
+                        {% endfor %}
+                    </div>
+
+                    <p class="text-gray-500 text-sm mb-4">O valor será cobrado apenas uma vez, ou conforme o número de parcelas escolhido.</p>
+                    
+                    {{ form_errors(chargeForm.paymentOption) }}
+                    {{ form_row(chargeForm.chargeType) }}
+
+                    <div id="installment-form" class="flex flex-col md:flex-row md:space-x-4"> 
+                        <div class="flex-1"> {{ form_row(chargeForm.installments) }}</div>
+                        <div class="flex-1"> {{ form_row(chargeForm.dueDate) }}</div>
+                    </div>
+
+                    <div id="subscription-form" class="hidden mt-6">
+                        <div class="flex flex-col md:flex-row md:space-x-4"> 
+                            <div class="flex-1"> {{ form_row(chargeForm.subscriptionFrequency) }}</div>
+                            <div class="flex-1"> {{ form_row(chargeForm.dueDateAss) }}</div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <div class="flex justify-end mt-6">
+                    <button type="button" id="next-step-1" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md shadow-md transition duration-300 ease-in-out">Avançar</button>
+                </div>
+            </div>
+
+            <div id="step-2" class="form-step hidden"> 
+                <fieldset class="border border-gray-300 p-6 rounded-md mb-6">
+                    <legend class="text-xl font-semibold text-gray-700 px-2 -ml-2">2. Dados do Cliente</legend>
+                    {{ form_row(chargeForm.clientName) }}
+                    {{ form_row(chargeForm.clientCpfCnpj) }}
+                    {{ form_row(chargeForm.clientEmail) }}
+                    {{ form_row(chargeForm.clientAddress) }}
+                </fieldset>
+
+                <div class="flex justify-between mt-6">
+                    <button type="button" id="prev-step-2" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-md shadow-md transition duration-300 ease-in-out">Voltar</button>
+                    <button type="submit" id="submit-form" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md shadow-md transition duration-300 ease-in-out">Gerar Cobrança</button>
+                </div>
+            </div> 
+
+        {{ form_end(chargeForm) }}
+    </div>
+
+    <script src="https://unpkg.com/imask"></script>
+    <script src="{{ asset('js/masks.js') }}"></script>
+    <script src="{{ asset('js/wizard.js') }}"></script>
+{% endblock %}

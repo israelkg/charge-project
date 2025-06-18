@@ -1,0 +1,64 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Painel de Controle - Projeto de Cobrança{% endblock %}
+
+{% block body %}
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">Bem-vindo ao Painel de Controle!</h1>
+
+    <p class="text-gray-600 mb-8">
+        Aqui você pode gerenciar suas cobranças, clientes e acompanhar o status das suas transações.
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-xl font-semibold text-gray-700 mb-2">Total de Cobranças</h3>
+            <p class="text-4xl font-bold text-blue-600">
+                {% if app.user %}
+                    125
+                {% else %}
+                    N/A
+                {% endif %}
+            </p>
+            <p class="text-gray-500 text-sm mt-2">Cobrancas geradas no sistema.</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-xl font-semibold text-gray-700 mb-2">Pendentes</h3>
+            <p class="text-4xl font-bold text-orange-600">
+                {% if app.user %}
+                    27 
+                {% else %}
+                    N/A
+                {% endif %}
+            </p>
+            <p class="text-gray-500 text-sm mt-2">Aguardando pagamento.</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-xl font-semibold text-gray-700 mb-2">Total Recebido</h3>
+            <p class="text-4xl font-bold text-green-600">
+                {% if app.user %}
+                    R$ 15.245,50
+                {% else %}
+                    N/A
+                {% endif %}
+            </p>
+            <p class="text-gray-500 text-sm mt-2">Valor total das cobranças pagas.</p>
+        </div>
+    </div>
+
+    <div class="mt-8">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Ações Rápidas</h2>
+        {% if app.user %}
+            <a href="{{ path('app_charge_new') }}" class="inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105">
+                + Nova Cobrança
+            </a>
+        {% else %}
+            <p class="text-gray-700">Faça login para acessar todas as funcionalidades do painel.</p>
+            <a href="{{ path('app_login') }}" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 mt-4">
+                Fazer Login
+            </a>
+        {% endif %}
+    </div>
+{% endblock %}

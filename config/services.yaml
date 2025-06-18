@@ -1,0 +1,39 @@
+
+parameters:
+    env(MONGODB_URL): 'mongodb://localhost:27017'
+    env(MONGODB_DATABASE): 'billing_db'
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Kernel.php'
+            - '../src/Tests/'
+
+    MongoDB\Client:
+        arguments:
+            - '%env(MONGODB_URL)%'
+
+    App\Repository\UserRepository:
+        arguments:
+            - '@MongoDB\Client'
+            - '%env(MONGODB_DATABASE)%'
+
+    App\Repository\ClientRepository:
+        arguments:
+            - '@MongoDB\Client'
+            - '%env(MONGODB_DATABASE)%'
+
+    App\Repository\ChargeRepository:
+        arguments:
+            - '@MongoDB\Client'
+            - '%env(MONGODB_DATABASE)%'
+
+    App\Security\UserProvider:
+        arguments:
+            - '@App\Repository\UserRepository'
